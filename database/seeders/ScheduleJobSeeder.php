@@ -2,16 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\ScheduleJob;
 use Illuminate\Database\Seeder;
 
-class UserSeeder extends Seeder
+class ScheduleJobSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        User::factory(10)->create();
+        ScheduleJob::factory(20)->create();
     }
 }

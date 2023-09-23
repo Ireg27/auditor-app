@@ -2,24 +2,35 @@
 
 namespace Database\Factories;
 
+use App\Enums\JobStatusEnum;
 use App\Models\ScheduleJob;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Carbon;
 
 class ScheduleJobFactory extends Factory
 {
     protected $model = ScheduleJob::class;
 
-    public function definition()
+    public function definition(): array
     {
+        $status = fake()->randomElement([
+            JobStatusEnum::NOT_STARTED,
+            JobStatusEnum::IN_PROGRESS,
+            JobStatusEnum::DONE,
+        ]);
+
+        $userId = $status !== JobStatusEnum::NOT_STARTED ? User::inRandomOrder()->first()->id : null;
+
+        $scheduleDate = $userId ? now() : null;
+
         return [
-            'title' => $this->faker->word(),
-            'description' => $this->faker->text(),
-            'scheduled_date' => Carbon::now(),
-            'status' => $this->faker->word(),
-            'user_id' => $this->faker->word(),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
+            'title' => fake()->word(),
+            'description' => fake()->text(),
+            'scheduled_date' => $scheduleDate,
+            'status' => $status,
+            'user_id' => $userId,
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }
